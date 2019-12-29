@@ -1,8 +1,8 @@
 <script>
 "use strict";
-ready(onReady);
+OB_ready(OB_doWhenReady);
 
-function onReady() {
+function OB_doWhenReady() {
     // localize everything
     var ooohBoi = window.ooohBoi || {};
     // local scope variables
@@ -15,12 +15,12 @@ function onReady() {
         top: ooohBoi.header.offsetTop,
         left: ooohBoi.header.offsetLeft,
     };
-    ooohBoi.header_height = outerHeight(ooohBoi.header);
+    ooohBoi.header_height = OB_outerHeight(ooohBoi.header);
     // show-hide header with ease/transition
     ooohBoi.header.style.transition = 'all 0.3s ease';
     // update header height on window resize
     ooohBoi.updateHeaderHeight = function() {
-        ooohBoi.header_height = outerHeight(ooohBoi.header);
+        ooohBoi.header_height = OB_outerHeight(ooohBoi.header);
     }
     // listen "scroll" event and decide what to do
     ooohBoi.checkScroll = function() {
@@ -35,11 +35,11 @@ function onReady() {
     // add or remove class based on the scrolling direction
     ooohBoi.toggleHeader = function(scroll_direction, scroll_current) {
         if (scroll_direction === 'down' && scroll_current > ooohBoi.header_height) {
-            addClass(ooohBoi.header, 'im-hidden'); // for styling
+            OB_addClass(ooohBoi.header, 'im-hidden'); // for styling
             ooohBoi.header.style.top = -1 * ooohBoi.header_height + "px";
             ooohBoi.prev_scroll_direction = scroll_direction;
         } else if (scroll_direction === 'up') {
-            removeClass(ooohBoi.header, 'im-hidden');
+            OB_removeClass(ooohBoi.header, 'im-hidden');
             ooohBoi.header.style.top = ooohBoi.header_pos.top + "px";
             ooohBoi.prev_scroll_direction = scroll_direction;
         }
@@ -49,14 +49,14 @@ function onReady() {
     window.addEventListener('resize', ooohBoi.updateHeaderHeight);
 }
 
-function outerHeight(el) {
+function OB_outerHeight(el) {
     var height = el.offsetHeight;
     var style = getComputedStyle(el);
     height += parseInt(style.marginTop) + parseInt(style.marginBottom);
     return height;
 }
 
-function addClass(el, className) {
+function OB_addClass(el, className) {
     if (el.classList) el.classList.add(className);
     else {
         var current = el.className,
@@ -70,12 +70,12 @@ function addClass(el, className) {
     }
 }
 
-function removeClass(el, className) {
+function OB_removeClass(el, className) {
     if (el.classList) el.classList.remove(className);
     else el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
 }
 
-function ready(fn) {
+function OB_ready(fn) {
     if (document.readyState != 'loading') fn();
     else if (document.addEventListener) document.addEventListener('DOMContentLoaded', fn);
     else {
